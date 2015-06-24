@@ -19,11 +19,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngSanitize'])
     }
   });
 })
-.filter('trusted', ['$sce', function ($sce) {
-    return function(url) {
-        return $sce.trustAsResourceUrl(url);
-    };
-}])
+.config(function($sceDelegateProvider) {
+  $sceDelegateProvider.resourceUrlWhitelist([
+    'self',
+    'https://www.youtube.com/**'
+  ]);
+})
 .config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
 
@@ -33,43 +34,52 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngSanitize'])
     templateUrl: "templates/menu.html",
     controller: 'AppCtrl'
   })
-
-  .state('app.search', {
-    url: "/search",
+  
+  .state('app.news', {
+    url: "/news",
     views: {
       'menuContent': {
-        templateUrl: "templates/search.html"
+        templateUrl: "templates/news.html",
+        controller: 'NewsCtrl'
       }
     }
   })
-
-  .state('app.browse', {
-    url: "/browse",
+  .state('app.beginners', {
+    url: "/beginners",
     views: {
       'menuContent': {
-        templateUrl: "templates/browse.html"
+        templateUrl: "templates/beginners.html",
+        controller: 'BeginnersCtrl'
       }
     }
   })
-    .state('app.collections', {
-      url: "/collections",
-      views: {
-        'menuContent': {
-          templateUrl: "templates/collections.html",
-          controller: 'CollectionsCtrl'
-        }
-      }
-    })
-
-  .state('app.single', {
-    url: "/collections/:playlistId",
+  .state('app.enthusiasts', {
+    url: "/enthusiasts",
     views: {
       'menuContent': {
-        templateUrl: "templates/playlist.html",
+        templateUrl: "templates/enthusiasts.html",
+        controller: 'EnthusiastsCtrl'
+      }
+    }
+  })
+  .state('app.experts', {
+    url: "/experts",
+    views: {
+      'menuContent': {
+        templateUrl: "templates/experts.html",
+        controller: 'ExpertsCtrl'
+      }
+    }
+  })
+  .state('app.collections', {
+    url: "/collections",
+    views: {
+      'menuContent': {
+        templateUrl: "templates/collections.html",
         controller: 'CollectionsCtrl'
       }
     }
-  });
+  })
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/collections');
 });

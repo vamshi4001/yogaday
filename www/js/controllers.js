@@ -41,17 +41,58 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller('CollectionsCtrl', function($scope, $sce) {
-  $scope.trustSrc = function(src) {
-    return $sce.trustAsResourceUrl(src);
-  }
+.controller('NewsCtrl', function($scope, $sce) {
   $scope.videos = [
     {
-      "url":"https://www.youtube.com/embed/dbYQeBJIWRs",
+      "id":"dbYQeBJIWRs",
       "description":"This is a helpful video for all yoga lovers"
     }
   ]
 })
 
-.controller('CollectionCtrl', function($scope, $stateParams) {
-});
+.controller('BeginnersCtrl', function($scope, $sce) {
+  $scope.videos = [
+    {
+      "id":"dbYQeBJIWRs",
+      "description":"This is a helpful video for all yoga lovers"
+    }
+  ]
+})
+
+.controller('EnthusiastsCtrl', function($scope, $sce) {
+  $scope.videos = [
+    {
+      "id":"dbYQeBJIWRs",
+      "description":"This is a helpful video for all yoga lovers"
+    }
+  ]
+})
+
+.controller('ExpertsCtrl', function($scope, $sce) {
+  $scope.videos = [
+    {
+      "id":"dbYQeBJIWRs",
+      "description":"This is a helpful video for all yoga lovers"
+    }
+  ]
+})
+
+.controller('CollectionsCtrl', function($scope, $sce, $http) {
+  $scope.getIframeSrc = function(src) {
+    return 'https://www.youtube.com/embed/' + src;
+  };
+  $scope.videos = [];
+  $http({
+      method: "GET",
+      url: "http://mycollect.in/ticketsws/index.php/data/getYogaVideos.json",
+  }).then(function(response){
+    console.log(response);
+      if(response.data.isSuccess){
+        $scope.videos = response.data.videos
+      }
+      else{
+        alert("Couldn't fetch data");
+      }
+  })
+})
+
